@@ -1,2 +1,2 @@
 # sale
-Sale related modules for Odoo
+Sales and Pricing  related modules for Odoo
