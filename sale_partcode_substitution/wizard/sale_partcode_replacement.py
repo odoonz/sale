@@ -18,7 +18,7 @@ class SaleCodeReplacement(models.TransientModel):
         self.ensure_one()
         sale = self.env['sale.order'].browse(self._context['active_id'])
         order_line = self.env['sale.order.line']
-        if sale.state != 'draft':
+        if sale.state not in ['draft', 'sent']:
             raise ValidationError(
                 _('Partcodes cannot be changed! Make sure '
                   'the Sales Order is in "Quotation" state!'))
