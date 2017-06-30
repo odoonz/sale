@@ -12,10 +12,10 @@
                 </h1>
                 <label for="description" class="oe_edit_only"/>
                     <field colspan="4" name="description"/>
-                <group string="Templates">
+                <group string="Products">
                     <field nolabel="1" name="product_tmpl_ids"/>
                 </group>
-                <group string="Products">
+                <group string="Variants">
                     <field nolabel="1" name="product_ids"/>
                 </group>
             </form>

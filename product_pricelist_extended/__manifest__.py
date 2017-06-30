@@ -1,28 +1,20 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    OpenERP, Open Source Management Solution - module extension
-#    Copyright (C) 2010- O4SB (<http://openforsmallbusiness.co.nz>).
-#
-##############################################################################
+# Copyright 2014 Graeme Gellatly
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-# noinspection PyStatementEffect
 {
     'name': 'Pricelist Extensions',
     'version': '10.0.1.0.0',
-    'category': '',
-    'author': 'O4SB',
-    'website': 'http://www.openforsmallbusiness.co.nz',
+    'license': 'AGPL-3',
+    'category': 'Sales & Purchases',
+    'author': 'O4SB - Graeme Gellatly',
+    'website': 'https://o4sb.com',
     'depends': ['product', 'sale'],
-    "description": """
-    This module implements many2many product ids for pricelist rules and provides
-    a report for checking pricelist rules.
-    """,
+    "summary": "This module implements many2many products in pricelists.",
     'data': ['views/product_pricelist_view.xml',
              'views/product_price_category_view.xml',
-             'security/ir.model.access.csv'
-    #               'report/pricelist_report.xml'
-    ],
+             'security/ir.model.access.csv',
+             ],
     'installable': True,
     'active': False,
 }

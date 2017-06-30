@@ -13,9 +13,9 @@ class ProductPriceCategory(models.Model):
     name = fields.Char(string='Category Name', required=True)
     description = fields.Text('Description', required=True)
     product_tmpl_ids = fields.Many2many(
-        comodel_name='product.template', string='Product Templates')
+        comodel_name='product.template', string='Products')
     product_ids = fields.Many2many(
-        comodel_name='product.product', string='Products')
+        comodel_name='product.product', string='Variants')
 
 
 class ProductTemplate(models.Model):
@@ -23,7 +23,7 @@ class ProductTemplate(models.Model):
 
     tmpl_price_categ_ids = fields.Many2many(
         comodel_name='product.price.category',
-        string='Template Price Categories',
+        string='Product Price Categories',
     )
 
 
@@ -32,5 +32,5 @@ class ProductProduct(models.Model):
 
     price_categ_ids = fields.Many2many(
         comodel_name='product.price.category',
-        string='Product Price Categories',
+        string='Variant Price Categories',
     )

@@ -1,12 +1,6 @@
-#  -*- coding: utf-8 -*-
-##############################################################################
-#
-#    OpenERP, Open Source Management Solution - module extension
-#    Copyright (C) 2010- O4SB (<http://openforsmallbusiness.co.nz>).
-#
-#    See __openerp__.py for full license description
-#
-##############################################################################
+# -*- coding: utf-8 -*-
+# Copyright 2014 Graeme Gellatly
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from itertools import chain
 
@@ -26,17 +20,12 @@ class ProductPricelist(models.Model):
     @api.multi
     def _compute_price_rule(self, products_qty_partner, date=False,
                             uom_id=False):
-        """multi products 'price_get'.
-           @param pricelist_ids:
-           @param products_by_qty_by_partner:
-           @param context: {
-             'date': Date of the pricelist (%Y-%m-%d),}
-           @return: a dict of dict with product_id as key and a dict
-                       'price by pricelist' as value
-           @note: includes bug fix in sql statement to correctly access
-                   plversions over Openerp trunk as flagged as won't fix
-           @note: since I don't believe that the min and max margin code works
-                   it is disabled in order to speed things up.
+        """
+
+        :param products_qty_partner: list of tuples
+        :param date: string
+        :param uom_id: unit of measure integer
+        :return: dictionary of format key=integer product.id, value=float price
         """
         self.ensure_one()
         if not date:
