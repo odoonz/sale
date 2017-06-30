@@ -10,8 +10,10 @@
     'summary': 'Allows all products of a sale order to be updated by '
                'substituting part of their partcode',
     'author': 'O4SB - Graeme Gellatly',
+    'website': 'https://o4sb.com',
     'depends': ['sale'],
     'data': [
         'wizard/sale_partcode_replacement.xml'
     ],
+    'installable': True,
 }
