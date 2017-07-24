@@ -44,7 +44,7 @@ class PriceRecalculation(models.AbstractModel):
         if 'line_ids' in flds:
             res.update(line_ids=self._get_lines(obj))
         if 'date_order' in flds:
-            res.update(date_order=obj.date)
+            res.update(date_order=obj.date_order)
         return res
 
     @api.onchange('total', 'tax_incl')
@@ -95,12 +95,15 @@ class PriceRecalculation(models.AbstractModel):
 
     @api.multi
     def _check_write_constraints(self):
-        for record in self:
-            for inv in record.name.invoice_ids:
-                if inv.state not in ('draft', 'cancel'):
-                    raise ValidationError(
-                        _('You cannot change pricing on an order that has '
-                          'already been invoiced.'))
+        """
+        Check write constraints for orders that can't be updated
+        Note: Caller ensures one record
+        """
+        if self.name.invoice_ids.filtered(
+                lambda i: i.state not in ('draft', 'cancel')):
+            raise ValidationError(
+                _('You cannot change pricing on an order that has '
+                  'already been invoiced.'))
 
     @api.multi
     def _set_context(self):
