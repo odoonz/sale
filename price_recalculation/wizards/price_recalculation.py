@@ -48,7 +48,7 @@ class PriceRecalculation(models.AbstractModel):
         return res
 
     @api.onchange('total', 'tax_incl')
-    def _onchange_balance_to_total(self, count=1):
+    def _onchange_balance_to_total(self):
         if not self.total:
             return
         if self.tax_incl:

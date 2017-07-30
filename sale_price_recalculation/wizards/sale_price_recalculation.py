@@ -20,13 +20,13 @@ class SalePriceRecalculation(models.TransientModel):
         return {}
 
     @api.onchange('total', 'tax_incl')
-    def _onchange__balance_to_total(self, count=1):
+    def _onchange__balance_to_total(self):
         if not self.total:
             return
         for line in self.line_ids:
             line.discount = 0.0
         return super(SalePriceRecalculation,
-                     self)._onchange_balance_to_total(count=count)
+                     self)._onchange_balance_to_total()
 
     @api.onchange('pricelist_id')
     def onchange_pricelist_id(self):
