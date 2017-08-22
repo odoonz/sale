@@ -38,23 +38,43 @@ class SalePriceRecalculation(models.TransientModel):
         ctx.update({'warehouse_id': self.name.warehouse_id.id})
         return ctx
 
+    @staticmethod
+    def _get_quoted_prices(quote):
+        """
+        Refactored method out of onchange_quote_id as useful
+        elsewhere
+        :param quote:
+        :return: dictionary of template prices on  quote
+        """
+        return {ql.product_id.product_tmpl_id.id: (
+                ql.price_unit, ql.product_id.list_price)
+                for ql in quote.order_line}
+
+    @staticmethod
+    def _get_line_quoted_price(self, product, quoted_prices, orig_price):
+        """
+        Refactored method out of onchange_quote_id as useful
+        elsewhere
+        :return: price (float)
+        """
+        tmpl_id = product.product_tmpl_id.id
+        if tmpl_id not in quoted_prices:
+            return orig_price
+        if quoted_prices[tmpl_id][1]:
+            ratio = product.list_price / quoted_prices[tmpl_id][1]
+        else:
+            ratio = 0.0
+        return quoted_prices[tmpl_id][0] * ratio
+
     @api.onchange('copy_quote_id')
     def onchange_quote_id(self):
         self.update_pricelist_lines(self.copy_quote_id.pricelist_id)
-        quoted_prices = {
-            ql.product_id.product_tmpl_id.id: (
-                ql.price_unit, ql.product_id.list_price)
-            for ql in self.copy_quote_id.order_line
-        }
+        quoted_prices = self._get_quoted_prices(self.copy_quote_id)
         for line in self.line_ids:
-            tmpl_id = line.product_id.product_tmpl_id.id
-            if tmpl_id in quoted_prices:
-                if quoted_prices[tmpl_id][1]:
-                    ratio = (line.product_id.list_price /
-                             quoted_prices[tmpl_id][1])
-                    line.price_unit = quoted_prices[tmpl_id][0] * ratio
-                else:
-                    line.price_unit = 0.0
+            orig_price = line.price_unit
+            line.price_unit = self._get_line_quoted_price(
+                line.product_id, quoted_prices, orig_price)
+            if line.price_unit != orig_price:
                 line.price_subtotal = line.price_unit * line.qty
                 line.price_total = line.price_subtotal * (
                     1 + line.effective_tax_rate)
