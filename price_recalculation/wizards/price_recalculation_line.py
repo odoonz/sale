@@ -27,6 +27,11 @@ class PriceRecalculationLine(models.AbstractModel):
 
     @api.onchange('price_total')
     def _onchange_total(self):
+        # Note: Required to avoid div by zero errors
+        # due to upstream bug not honoring create="0"
+        # https://github.com/odoo/odoo/issues/19053
+        if not (self.effective_tax_rate and self.qty):
+            return
         price_subtotal = self.price_total / (1 + self.effective_tax_rate)
         self.price_unit = float_round(price_subtotal / self.qty,
                                       self._context.get('precision', 2))
@@ -35,6 +40,11 @@ class PriceRecalculationLine(models.AbstractModel):
 
     @api.onchange('price_subtotal')
     def _onchange_subtotal(self):
+        # Note: Required to avoid div by zero errors
+        # due to upstream bug not honoring create="0"
+        # https://github.com/odoo/odoo/issues/19053
+        if not self.qty:
+            return
         self.price_unit = float_round(self.price_subtotal / self.qty,
                                       self._context.get('precision', 2))
         self.price_subtotal = self.price_unit * self.qty

@@ -51,7 +51,7 @@ class SalePriceRecalculation(models.TransientModel):
                 for ql in quote.order_line}
 
     @staticmethod
-    def _get_line_quoted_price(self, product, quoted_prices, orig_price):
+    def _get_line_quoted_price(product, quoted_prices, orig_price):
         """
         Refactored method out of onchange_quote_id as useful
         elsewhere
