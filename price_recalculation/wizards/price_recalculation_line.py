@@ -12,7 +12,7 @@ class PriceRecalculationLine(models.AbstractModel):
     _name = 'price.recalculation.line'
     _description = __doc__
 
-    product_id = fields.Many2one('product.product', 'Product')
+    product_id = fields.Many2one('product.product', 'Product', readonly=1)
     qty = fields.Float(
         'Qty', digits=dp.get_precision('Product Unit of Measure'),
         readonly=True)

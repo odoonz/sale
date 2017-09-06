@@ -29,10 +29,10 @@
                 </group>
                 <field name="line_ids" nolabel="1" colspan="5" mode="tree" width="800">
                     <tree string="Order Lines" editable="bottom" create="false">
-                        <field name="name" readonly="1" options="{'no_open': True}"/>
+                        <field name="name" options="{'no_open': True}" force_save="1"/>
                         <field name="effective_tax_rate" invisible="1"/>
                         <field name="product_id" invisible="1"/>
-                        <field name="qty" readonly="1"/>
+                        <field name="qty" force_save="1"/>
                         <field name="price_unit" context="{'precision': parent.precision}"/>
                         <field name="discount"/>
                         <field name="price_subtotal" context="{'precision': parent.precision}"/>

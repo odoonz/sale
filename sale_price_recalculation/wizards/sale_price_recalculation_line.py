@@ -12,7 +12,7 @@ class SalePriceRecalculationLine(models.TransientModel):
     _name = 'sale.price.recalculation.line'
     _description = __doc__
 
-    name = fields.Many2one(comodel_name='sale.order.line')
+    name = fields.Many2one(comodel_name='sale.order.line', readonly=True)
     price_recalculation_id = fields.Many2one(
         comodel_name='sale.price.recalculation',
         string='Price Recalculation'
